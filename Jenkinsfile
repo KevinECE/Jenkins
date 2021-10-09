@@ -1,9 +1,11 @@
 pipeline {
   agent any
   stages {
-    stage('myStage'){
+    stage('Checkout'){
       steps {
-        sh 'ls -la' 
+        git branch: 'my_specific_branch',
+            credentialsId: ${env.CREDENTIALS}
+            url: 'https://github.com/KevinECE/tclrepo.git'
       }
     }
     stage('Build') {
