@@ -10,7 +10,8 @@ pipeline {
     }
     stage('Build') {
       steps { 
-        sh 'ls' 
+        sh 'ls'
+	sh 'python hello.py' 
       }
     }
   }
