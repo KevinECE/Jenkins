@@ -17,7 +17,7 @@ pipeline {
     }
 
     stage('2 - Run if hello.py changed') {
-      when { changeset pattern: "/hello.py/" comparator: "REGEXP"}
+      when { changeset pattern: "/hello.py/", comparator: "REGEXP"}
       steps { 
         echo 'hello.py changed!'
         sh 'ls'
