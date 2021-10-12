@@ -15,6 +15,7 @@ pipeline {
       steps {
         echo("changeset works")
       }
+    }
 
     stage('1 - Run if hello.py changed') {
       when { changeset "pattern: "hello.py", comparator: "EQUALS""}
