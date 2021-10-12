@@ -9,14 +9,15 @@ pipeline {
         git credentialsId: 'github_credentials', url: 'https://github.com/KevinECE/Jenkins'
       }
     }
-    stage('1 - Always run') {
-      steps {
-        echo 'Running'
-      }
-    }
 
-    stage('2 - Run if hello.py changed') {
-      when { changeset pattern: "/hello.py/", comparator: "REGEXP"}
+    stage("Test changeset") {
+      when { changeset "**/Jenkinsfile"}
+      steps {
+        echo("changeset works")
+      }
+
+    stage('1 - Run if hello.py changed') {
+      when { changeset "pattern: "hello.py", comparator: "EQUALS""}
       steps { 
         echo 'hello.py changed!'
         sh 'ls'
@@ -25,7 +26,7 @@ pipeline {
       }
     }
 
-    stage('3 Run if hello.py ran') {
+    stage('2 Run if hello.py ran') {
       when { expression { flag == true } }
       steps {
         echo 'hello.py ran! Now run goodbye.py'
