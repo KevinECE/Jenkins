@@ -3,13 +3,12 @@ def flag = false;
 pipeline {
   agent any
   stages {
-    // stage('Checkout'){
-    //   steps {
-    //     git branch: 'master',
-    //         credentialsId: "${env.CREDENTIALS}",
-    //         url: 'https://github.com/KevinECE/tclrepo.git'
-    //   }
-    // }
+    stage('Checkout'){
+      steps {
+        echo 'Checking out from repository...'
+        git credentialsId: 'github_credentials', url: 'https://github.com/KevinECE/Jenkins'
+      }
+    }
     stage('1 - Always run') {
       steps {
         echo 'Running'
