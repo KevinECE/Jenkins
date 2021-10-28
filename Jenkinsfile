@@ -10,30 +10,37 @@ pipeline {
       }
     }
 
-    stage("Test changeset") {
-      when { changeset "**/Jenkinsfile"}
-      steps {
-        echo("changeset works")
+      stage('Test'){
+        steps {
+          echo 'List Directory Files'
+          sh 'ls'
+        }
       }
-    }
 
-    stage('1 - Run if hello.py changed') {
-      when { changeset pattern: "hello.py", comparator: "EQUALS"}
-      steps { 
-        echo 'hello.py changed!'
-        sh 'ls'
-	      sh 'python hello.py' 
-        script{ flag = true }
-      }
-    }
+    // stage("Test changeset") {
+    //   when { changeset "**/Jenkinsfile"}
+    //   steps {
+    //     echo("changeset works")
+    //   }
+    // }
 
-    stage('2 Run if hello.py ran') {
-      when { expression { flag == true } }
-      steps {
-        echo 'hello.py ran! Now run goodbye.py'
-        sh 'ls'
-        sh 'python goodbye.py'
-      }
-    }
+    // stage('1 - Run if hello.py changed') {
+    //   when { changeset pattern: "hello.py", comparator: "EQUALS"}
+    //   steps { 
+    //     echo 'hello.py changed!'
+    //     sh 'ls'
+	  //     sh 'python hello.py' 
+    //     script{ flag = true }
+    //   }
+    // }
+
+    // stage('2 Run if hello.py ran') {
+    //   when { expression { flag == true } }
+    //   steps {
+    //     echo 'hello.py ran! Now run goodbye.py'
+    //     sh 'ls'
+    //     sh 'python goodbye.py'
+    //   }
+    // }
   }
 }
