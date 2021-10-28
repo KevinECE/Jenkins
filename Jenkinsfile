@@ -3,21 +3,22 @@ def flag = false;
 pipeline {
   agent any
   stages {
-    // stage('Checkout'){
-    //   steps {
-    //     git branch: 'master',
-    //         credentialsId: "${env.CREDENTIALS}",
-    //         url: 'https://github.com/KevinECE/tclrepo.git'
-    //   }
-    // }
-    stage('1 - Always run') {
+    stage('Checkout'){
       steps {
-        echo 'Running'
+        echo 'Checking out from repository...'
+        git credentialsId: 'github_credentials', url: 'https://github.com/KevinECE/Jenkins'
       }
     }
 
-    stage('2 - Run if hello.py changed') {
-      when { changeset pattern: "/hello.py/", comparator: "REGEXP"}
+    stage("Test changeset") {
+      when { changeset "**/Jenkinsfile"}
+      steps {
+        echo("changeset works")
+      }
+    }
+
+    stage('1 - Run if hello.py changed') {
+      when { changeset pattern: "hello.py", comparator: "EQUALS"}
       steps { 
         echo 'hello.py changed!'
         sh 'ls'
@@ -26,7 +27,7 @@ pipeline {
       }
     }
 
-    stage('3 Run if hello.py ran') {
+    stage('2 Run if hello.py ran') {
       when { expression { flag == true } }
       steps {
         echo 'hello.py ran! Now run goodbye.py'
