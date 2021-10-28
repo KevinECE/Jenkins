@@ -10,12 +10,35 @@ pipeline {
       }
     }
 
-      stage('Test'){
-        steps {
-          echo 'List Directory Files'
-          sh 'ls'
-        }
+    stage("Test changeset") {
+      when { changeset "**/Jenkinsfile"}
+      steps {
+        echo("changeset works")
       }
+    }
+
+    stage('1 - Run if hello.py changed') {
+      when { changeset pattern: "hello.py", comparator: "EQUALS"}
+      steps { 
+        echo 'hello.py changed!'
+        bat """
+          dir
+          python hello.py
+        """
+        script{ flag = true }
+      }
+    }
+
+    stage('2 Run if hello.py ran') {
+      when { expression { flag == true } }
+      steps {
+        echo 'hello.py ran! Now run goodbye.py'
+        bat """
+          dir
+          python goodbye.py
+        """
+      }
+    }
 
     // stage("Test changeset") {
     //   when { changeset "**/Jenkinsfile"}
